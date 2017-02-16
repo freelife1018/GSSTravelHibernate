@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017/2/10 ?U?? 02:49:41 by Hibernate Tools 5.2.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.FamilyVO" table="Family" schema="dbo" catalog="GSSTravel" optimistic-lock="version">
+        <id name="famNo" type="java.lang.Integer">
+            <column name="fam_No" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="employee" class="model.EmployeeVO" fetch="select">
+            <column name="emp_No" not-null="true" />
+        </many-to-one>
+        <property name="famName" type="string">
+            <column name="fam_Name" length="100" not-null="true" />
+        </property>
+        <property name="famRel" type="string">
+            <column name="fam_Rel" length="4" not-null="true" />
+        </property>
+        <property name="famBdate" type="date">
+            <column name="fam_Bdate" length="10" not-null="true" />
+        </property>
+        <property name="famSex" type="string">
+            <column name="fam_Sex" length="2" not-null="true" />
+        </property>
+        <property name="famEat" type="string">
+            <column name="fam_Eat" length="6" not-null="true" />
+        </property>
+        <property name="famId" type="string">
+            <column name="fam_Id" length="10" not-null="true" />
+        </property>
+        <property name="famPhone" type="string">
+            <column name="fam_Phone" length="10" not-null="true" />
+        </property>
+        <property name="famNote" type="string">
+            <column name="fam_Note" />
+        </property>
+        <property name="famBen" type="string">
+            <column name="fam_Ben" length="100" not-null="true" />
+        </property>
+        <property name="famBenRel" type="string">
+            <column name="fam_BenRel" not-null="true" />
+        </property>
+        <property name="famCar" type="boolean">
+            <column name="fam_Car" not-null="true" />
+        </property>
+        <property name="famEmg" type="string">
+            <column name="fam_Emg" length="100" not-null="true" />
+        </property>
+        <property name="famEmgPhone" type="string">
+            <column name="fam_EmgPhone" length="10" not-null="true" />
+        </property>
+        <property name="famEmgRel" type="string">
+            <column name="fam_EmgRel" not-null="true" />
+        </property>
+        <property name="famBady" type="boolean">
+            <column name="fam_Bady" not-null="true" />
+        </property>
+        <property name="famKid" type="boolean">
+            <column name="fam_kid" not-null="true" />
+        </property>
+        <property name="famDis" type="boolean">
+            <column name="fam_Dis" not-null="true" />
+        </property>
+        <property name="famMom" type="boolean">
+            <column name="fam_Mom" not-null="true" />
+        </property>
+        <set name="details" table="Detail" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fam_No" />
+            </key>
+            <one-to-many class="model.DetailVO" />
+        </set>
+    </class>
+</hibernate-mapping>

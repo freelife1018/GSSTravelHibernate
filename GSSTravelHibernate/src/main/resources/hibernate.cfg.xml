@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+<!--     <session-factory name="GGSHibernate"> -->
+<!--         <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property> -->
+<!--         <property name="hibernate.connection.password">P@ssw0rd</property> -->
+<!--         <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;database=GSSTravel</property> -->
+<!--         <property name="hibernate.connection.username">sa</property> -->
+<!--         <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property> -->
+<!--     </session-factory> -->
+    <session-factory>
+
+ 		<!-- JNDI連線池 (Apache Tomcat 連線池DBCP)設定 -->
+		<property name="hibernate.connection.datasource">java:/comp/env/jdbc/TestDB</property>
+        
+		<!--SQL方言,以下使用SQLServer -->
+		<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+
+		<!--是否要顯示實際操作資料庫時的SQL -->
+		<property name="hibernate.show_sql">true</property>
+
+        <!-- Disable the second-level cache -->
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+		<!--交易管理類型, 以下使用JDBC Transaction -->
+		<property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+        
+        <!-- Enable Hibernate's automatic session context management -->
+		<property name="hibernate.current_session_context_class">thread</property>
+
+		<!--Java物件與資料庫表格的映射檔 -->
+		<mapping resource="model/Department.hbm.xml" />
+		<mapping resource="model/Detail.hbm.xml" />
+		<mapping resource="model/Employee.hbm.xml" />
+		<mapping resource="model/Family.hbm.xml" />
+		<mapping resource="model/Fines.hbm.xml" />
+		<mapping resource="model/Item.hbm.xml" />
+		<mapping resource="model/TotalAmount.hbm.xml" />
+		<mapping resource="model/Travel.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017/2/10 ?U?? 02:49:41 by Hibernate Tools 5.2.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.TravelVO" table="Travel" schema="dbo" catalog="GSSTravel" optimistic-lock="version">
+        <id name="traNo" type="string">
+            <column name="tra_No" length="20" />
+            <generator class="assigned" />
+        </id>
+        <property name="traName" type="string">
+            <column name="tra_Name" length="50" not-null="true" />
+        </property>
+        <property name="traLoc" type="string">
+            <column name="tra_Loc" length="10" not-null="true" />
+        </property>
+        <property name="traOn" type="java.sql.Date">
+            <column name="tra_On" length="10" not-null="true" />
+        </property>
+        <property name="traOff" type="java.sql.Date">
+            <column name="tra_Off" length="10" not-null="true" />
+        </property>
+        <property name="traBeg" type="timestamp">
+            <column name="tra_Beg" length="16" not-null="true" />
+        </property>
+        <property name="traEnd" type="timestamp">
+            <column name="tra_End" length="16" not-null="true" />
+        </property>
+        <property name="traTotal" type="int">
+            <column name="tra_Total" not-null="true" />
+        </property>
+        <property name="traMax" type="int">
+            <column name="tra_Max" not-null="true" />
+        </property>
+        <property name="traIntr" type="string">
+            <column name="tra_Intr" not-null="true" />
+        </property>
+        <property name="traCon" type="string">
+            <column name="tra_Con" not-null="true" />
+        </property>
+        <property name="traAtter" type="string">
+            <column name="tra_Atter" not-null="true" />
+        </property>
+        <property name="traFile" type="string">
+            <column name="tra_File" />
+        </property>
+        <set name="totalAmounts" table="TotalAmount" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="tra_No" length="20" not-null="true" />
+            </key>
+            <one-to-many class="model.TotalAmountVO" />
+        </set>
+        <set name="items" table="Item" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="tra_No" length="20" not-null="true" />
+            </key>
+            <one-to-many class="model.ItemVO" />
+        </set>
+        <set name="details" table="Detail" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="tra_No" length="20" not-null="true" />
+            </key>
+            <one-to-many class="model.DetailVO" />
+        </set>
+    </class>
+</hibernate-mapping>

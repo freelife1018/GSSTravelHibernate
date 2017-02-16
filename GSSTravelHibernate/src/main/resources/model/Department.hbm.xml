@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017/2/10 ?U?? 02:49:41 by Hibernate Tools 5.2.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.DepartmentVO" table="Department" schema="dbo" catalog="GSSTravel" optimistic-lock="version">
+        <id name="deptNo" type="string">
+            <column name="dept_No" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="deptName" type="string">
+            <column name="dept_Name" length="10" not-null="true" />
+        </property>
+        <set name="employees" table="Employee" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="dept_NO" length="10" not-null="true" />
+            </key>
+            <one-to-many class="model.EmployeeVO" />
+        </set>
+    </class>
+</hibernate-mapping>

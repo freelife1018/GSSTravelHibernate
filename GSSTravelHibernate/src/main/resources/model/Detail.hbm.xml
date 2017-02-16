@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017/2/10 ?U?? 02:49:41 by Hibernate Tools 5.2.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.DetailVO" table="Detail" schema="dbo" catalog="GSSTravel" optimistic-lock="version">
+        <id name="detNo" type="java.lang.Integer">
+            <column name="det_No" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="employee" class="model.EmployeeVO" fetch="select">
+            <column name="emp_No" not-null="true" />
+        </many-to-one>
+        <many-to-one name="family" class="model.FamilyVO" fetch="select">
+            <column name="fam_No" />
+        </many-to-one>
+        <many-to-one name="travel" class="model.TravelVO" fetch="select">
+            <column name="tra_No" length="20" not-null="true" />
+        </many-to-one>
+        <property name="detDate" type="java.sql.Timestamp">
+            <column name="det_Date" length="16" not-null="true" />
+        </property>
+        <property name="detCanDate" type="java.sql.Timestamp">
+            <column name="det_CanDate" length="16" />
+        </property>
+        <property name="detMoney" type="double">
+            <column name="det_money" precision="53" scale="0" not-null="true" />
+        </property>
+        <property name="detNote" type="string">
+            <column name="det_note" />
+        </property>
+        <property name="detNoteMoney" type="java.lang.Double">
+            <column name="det_noteMoney" precision="53" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

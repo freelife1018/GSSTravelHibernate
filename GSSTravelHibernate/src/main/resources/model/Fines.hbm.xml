@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017/2/10 ?U?? 02:49:41 by Hibernate Tools 5.2.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.FinesVO" table="Fines" schema="dbo" catalog="GSSTravel" optimistic-lock="version">
+        <id name="fineDates" type="int">
+            <column name="fine_Dates" />
+            <generator class="assigned" />
+        </id>
+        <property name="finePer" type="double">
+            <column name="fine_Per" precision="53" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

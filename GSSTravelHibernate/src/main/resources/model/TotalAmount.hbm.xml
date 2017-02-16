@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017/2/10 ?U?? 02:49:41 by Hibernate Tools 5.2.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.TotalAmountVO" table="TotalAmount" schema="dbo" catalog="GSSTravel" optimistic-lock="version">
+        <composite-id name="id" class="model.TotalAmountIdVO">
+            <key-property name="traNo" type="string">
+                <column name="tra_No" length="20" />
+            </key-property>
+            <key-property name="empNo" type="int">
+                <column name="emp_No" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="employee" class="model.EmployeeVO" update="false" insert="false" fetch="select">
+            <column name="emp_No" not-null="true" />
+        </many-to-one>
+        <many-to-one name="travel" class="model.TravelVO" update="false" insert="false" fetch="select">
+            <column name="tra_No" length="20" not-null="true" />
+        </many-to-one>
+        <property name="taMoney" type="double">
+            <column name="TA_money" precision="53" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

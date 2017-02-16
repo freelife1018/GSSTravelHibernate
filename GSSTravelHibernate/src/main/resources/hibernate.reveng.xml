@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="GSSTravel" match-schema="dbo" match-name="Department"/>
+  <table-filter match-catalog="GSSTravel" match-schema="dbo" match-name="Detail"/>
+  <table-filter match-catalog="GSSTravel" match-schema="dbo" match-name="Employee"/>
+  <table-filter match-catalog="GSSTravel" match-schema="dbo" match-name="Family"/>
+  <table-filter match-catalog="GSSTravel" match-schema="dbo" match-name="Fines"/>
+  <table-filter match-catalog="GSSTravel" match-schema="dbo" match-name="Item"/>
+  <table-filter match-catalog="GSSTravel" match-schema="dbo" match-name="TotalAmount"/>
+  <table-filter match-catalog="GSSTravel" match-schema="dbo" match-name="Travel"/>
+</hibernate-reverse-engineering>

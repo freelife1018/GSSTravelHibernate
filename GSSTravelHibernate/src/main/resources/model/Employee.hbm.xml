@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017/2/10 ?U?? 02:49:41 by Hibernate Tools 5.2.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.EmployeeVO" table="Employee" schema="dbo" catalog="GSSTravel" optimistic-lock="version">
+        <id name="empNo" type="int">
+            <column name="emp_No" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="department" class="model.DepartmentVO" fetch="select">
+            <column name="dept_NO" length="10" not-null="true" />
+        </many-to-one>
+        <property name="empName" type="string">
+            <column name="emp_Name" length="100" not-null="true" />
+        </property>
+        <property name="empPhone" type="string">
+            <column name="emp_Phone" length="10" not-null="true" />
+        </property>
+        <property name="empId" type="string">
+            <column name="emp_ID" length="10" not-null="true" />
+        </property>
+        <property name="empSex" type="string">
+            <column name="emp_Sex" length="2" not-null="true" />
+        </property>
+        <property name="empBdate" type="date">
+            <column name="emp_Bdate" length="10" not-null="true" />
+        </property>
+        <property name="empEat" type="string">
+            <column name="emp_Eat" length="6" not-null="true" />
+        </property>
+        <property name="empEmg" type="string">
+            <column name="emp_Emg" length="100" not-null="true" />
+        </property>
+        <property name="empEmgPhone" type="string">
+            <column name="emp_EmgPhone" length="10" not-null="true" />
+        </property>
+        <property name="empEmgRel" type="string">
+            <column name="emp_EmgRel" not-null="true" />
+        </property>
+        <property name="empHireDate" type="java.sql.Date">
+            <column name="emp_HireDate" length="10" not-null="true" />
+        </property>
+        <property name="empSub" type="boolean">
+            <column name="emp_Sub" not-null="true" />
+        </property>
+        <property name="empPw" type="byte[]">
+            <column name="emp_PW" length="15" not-null="true" />
+        </property>
+        <property name="empBen" type="string">
+            <column name="emp_Ben" length="100" not-null="true" />
+        </property>
+        <property name="empBenRel" type="string">
+            <column name="emp_BenRel" not-null="true" />
+        </property>
+        <property name="empNote" type="string">
+            <column name="emp_Note" />
+        </property>
+        <property name="empMail" type="string">
+            <column name="emp_Mail" not-null="true" />
+        </property>
+        <property name="empRole" type="boolean">
+            <column name="emp_Role" not-null="true" />
+        </property>
+        <property name="empSubTra" type="string">
+            <column name="emp_SubTra" length="20" />
+        </property>
+        <set name="details" table="Detail" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="emp_No" not-null="true" />
+            </key>
+            <one-to-many class="model.DetailVO" />
+        </set>
+        <set name="families" table="Family" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="emp_No" not-null="true" />
+            </key>
+            <one-to-many class="model.FamilyVO" />
+        </set>
+        <set name="totalAmounts" table="TotalAmount" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="emp_No" not-null="true" />
+            </key>
+            <one-to-many class="model.TotalAmountVO" />
+        </set>
+    </class>
+</hibernate-mapping>
