@@ -15,18 +15,14 @@ public class ItemService {
 		return itemDAO.getRoomMoney(tra_No);
 	}
 	
+	//柯
 	public List<ItemVO> select(ItemVO bean) {
-		List<ItemVO> result = null;
-		ItemIdVO pk = new ItemIdVO();
-		if (bean != null && pk.getItemNo() != 0) {
-			List<ItemVO> temp = itemDAO.select();
-			if (temp != null) {
-				result = new ArrayList<ItemVO>();
-				result.add((ItemVO) temp);
-			}
-		} else {
-			result = itemDAO.select();
-		}
+		List<ItemVO> result = itemDAO.select();
+		return result;
+	}
+		
+	public List<ItemVO> selectOne(String no) {
+		List<ItemVO> result = itemDAO.selectOne(no);
 		return result;
 	}
 }

@@ -8,7 +8,7 @@
             <column name="fine_Dates" />
             <generator class="assigned" />
         </id>
-        <property name="finePer" type="double">
+        <property name="finePer" type="float">
             <column name="fine_Per" precision="53" scale="0" not-null="true" />
         </property>
     </class>

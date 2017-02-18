@@ -128,21 +128,18 @@ public class TravelService {
 		return array;
 	} 
 	
-	public List<TravelVO> selectOne(String traNo) {
-		return  itravelDao.select(traNo);
-	}
-	
+	// 柯
 	public List<TravelVO> select(TravelVO bean) {
-		List<TravelVO> result = null;
-		if (bean != null && bean.getTraNo() != null) {
-			List<TravelVO> temp = itravelDao.select(bean.getTraNo());
-			if (temp != null) {
-				result = new ArrayList<TravelVO>();
-				result.addAll(temp);
-			}
-		} else {
-			result = itravelDao.select();
-		}
+		List<TravelVO> result = travelDAO.getAll();
 		return result;
 	}
+
+	public List<TravelVO> selectOne(String traNo) {
+		List<TravelVO> result = null;
+		TravelVO temp = travelDAO.getAll(traNo);
+		result = new ArrayList<TravelVO>();
+		result.add(temp);
+		return result;
+	}
+
 }

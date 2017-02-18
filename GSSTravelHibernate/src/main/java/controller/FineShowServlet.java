@@ -36,14 +36,13 @@ public class FineShowServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		FinesVO fineBean = null;
-		TravelVO travelBean = null;
-		ItemVO itemBean = null;
+		TravelVO travelBean = new TravelVO();
+		ItemVO itemBean = new ItemVO();
 		boolean power = true;
 		power = true;
 		List<TravelVO> tResult = travelService.select(travelBean);
-		List<FinesVO> fResult = fineService.select(fineBean);
-		List<ItemVO> iResult = itemService.select(itemBean);		
+		List<FinesVO> fResult = fineService.select();
+		List<ItemVO> iResult = itemService.select(itemBean);
 		countI = fResult.size() - 1;
 		countJ = tResult.size() - 1;
 		request.setAttribute("countI", countI);

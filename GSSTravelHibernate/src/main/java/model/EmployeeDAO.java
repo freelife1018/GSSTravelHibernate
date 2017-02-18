@@ -88,6 +88,7 @@ public class EmployeeDAO {
 		}
 	}
 
+	// 柯
 	public List<EmployeeVO> selectFineEmail() {
 		List<EmployeeVO> result = null;
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();

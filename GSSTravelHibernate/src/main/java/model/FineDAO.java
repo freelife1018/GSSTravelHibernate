@@ -34,35 +34,25 @@ public class FineDAO {
 		return result;
 	}
 
-	public FinesVO insert(FinesVO fineBean) {
+	public void insert(FinesVO fineBean) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		FinesVO result = null;
 		try {
-			session.beginTransaction();
+			
 			SQLQuery query = session.createSQLQuery(INSERT_STMT);
 			query.setParameter(0, fineBean.getFineDates());
 			query.setParameter(1, fineBean.getFinePer());
 			session.save(fineBean);
-//			fineBean.setFineDates(day);
-//			fineBean.setFinePer(percent);
-//			session.save(fineBean);
-			session.getTransaction().commit();
 		} catch (Exception e) {
-			session.getTransaction().rollback();
 			throw e;
 		}
-		return result;
 	}
 
-	public void delete(int day) {
+	public void delete() {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			session.beginTransaction();
 			Query query = session.createQuery("DELETE FROM FinesVO");
 			query.executeUpdate();
-			session.getTransaction().commit();
 		} catch (Exception e) {
-			session.getTransaction().rollback();
 			throw e;
 		}
 	}

@@ -12,13 +12,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class email {
-	private static String host = "smtp.gmail.com";
-	private static int port = 587;
-	private static final String username = "gsstravelteam2@gmail.com";
-	private static final String password = "bjo4u;6vu/4zj6fu4u,4";// 叡揚幸福企業
+	private String host = "smtp.gmail.com";
+	private int port = 587;
+	private final String username = "gsstravelteam2@gmail.com";
+	private final String password = "bjo4u;6vu/4zj6fu4u,4";// 叡揚幸福企業
 	
 	//email:寄給誰 ;title:標題 ;content:內容
-	public static void send(String email,String title,String content){
+	public void send(String email,String title,String content){
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.auth", "true");

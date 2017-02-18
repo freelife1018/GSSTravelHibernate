@@ -19,47 +19,18 @@ public class FineService {
 		}
 		return array;
 	}
-	
-	public List<FinesVO> select(FinesVO bean) {
-		List<FinesVO> result = null;
-		if (bean != null && bean.getFineDates() != 0) {
-			List<FinesVO> temp = ifineDao.select(bean.getFineDates());
-			if (temp != null) {
-				result = new ArrayList<FinesVO>();
-				result.addAll(temp);
-			}
-		} else {
-			result = ifineDao.select();
-		}
+
+	public List<FinesVO> select() {
+		List<FinesVO> result = ifineDao.select();
 		return result;
 	}
 
-	public FinesVO insert(FinesVO bean) {
-		FinesVO result = null;
-		if (bean != null) {
-			result = ifineDao.insert(bean);
-		}
-		return result;
+	public void insert(FinesVO bean) {
+		ifineDao.insert(bean);
 	}
-
-//	public FinesVO update(FinesVO bean) {
-//		FinesVO result = null;
-//		if (bean != null) {
-//			result = ifineDao.update(bean.getFine_Per(), bean.getFine_Dates());
-//		}
-//		return result;
-//	}
-
-//	public boolean delete(FinesVO bean) {
-//		boolean result = false;
-//		if (bean != null) {
-//			result = ifineDao.delete(bean.getFine_Dates());
-//		}
-//		return result;
-//	}
 	
-	public void delete(FinesVO bean) {
-		ifineDao.delete(bean.getFineDates());
+	public void delete() {
+		ifineDao.delete();
 	}
 
 }
