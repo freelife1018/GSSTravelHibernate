@@ -9,7 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 public class DetailService {
 	public DetailDAO detailDAO;
@@ -198,4 +198,126 @@ public class DetailService {
 		detailDAO.updateDet_CanDate(emp_No, tra_No);
 	}
 
+	// 羅集
+	public List<DetailBean> select(DetailBean bean) {
+		List<DetailBean> result = new ArrayList<>();
+		detailDAO = new DetailDAO();
+		if (bean != null && bean.getTra_NO() != null) {
+			result = detailDAO.select(bean.getTra_NO());
+		}
+		return result;
+	}
+
+	public String SELECT_Name(int Emp_No, String Name) {
+		detailDAO = new DetailDAO();
+		String result = detailDAO.select_emp_Name(Emp_No, Name);
+		if (result == null) {
+			result = detailDAO.select_fam_Name(Emp_No, Name);
+		}
+		return result;
+	}
+
+	
+	
+	public boolean insert(DetailVO bean) {
+		detailDAO = new DetailDAO();
+		if (bean != null) {
+			detailDAO.insert(bean);
+			Float TA_money = detailDAO.select_TotalMoney(bean.getEmployee().getEmpNo(), bean.getTravel().getTraNo());
+			String top1_Tra_No = detailDAO.SELECT_top1_Tra_No(bean.getEmployee().getEmpNo());
+			detailDAO.Update_TA(TA_money, bean.getEmployee().getEmpNo(), bean.getTravel().getTraNo());
+			detailDAO.UPDATE_emp_SubTra(top1_Tra_No, bean.getEmployee().getEmpNo());
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean insert_emp(DetailVO bean) {
+		detailDAO = new DetailDAO();
+		if (bean != null) {
+			detailDAO.insert_emp(bean);
+			Float TA_money = detailDAO.select_TotalMoney(bean.getEmployee().getEmpNo(), bean.getTravel().getTraNo());
+			String top1_Tra_No = detailDAO.SELECT_top1_Tra_No(bean.getEmployee().getEmpNo());
+			detailDAO.INSERT_TA(bean.getTravel().getTraNo(), bean.getEmployee().getEmpNo(), TA_money);
+			detailDAO.UPDATE_emp_SubTra(top1_Tra_No, bean.getEmployee().getEmpNo());
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean update(DetailBean bean) {
+		boolean result = false;
+		if (bean != null) {
+			String Rel = detailDAO.Select_Rel(bean.getDet_No());
+			int emp_No = detailDAO.select_emp_No(bean.getDet_No());
+			if (Rel.equals("員工")) {
+				String emp_SubTra = detailDAO.SELECT_emp_SubTra(emp_No);
+				String top1_Tra_No = detailDAO.SELECT_top1_Tra_No(emp_No);
+				String top2_Tra_No = detailDAO.SELECT_top2_Tra_No(emp_No);
+				String canTra_No = bean.getTra_NO();
+				if (canTra_No.equals(emp_SubTra)) {
+					if (emp_SubTra.equals(top1_Tra_No)) {
+						if (top1_Tra_No.equals(top2_Tra_No)) {
+							detailDAO.UPDATE_emp_Sub(emp_No);
+						} else {
+							detailDAO.UPDATE_emp_SubTra(top2_Tra_No, emp_No);
+						}
+					}
+				}
+				detailDAO.DELETE_TA(canTra_No, emp_No);
+				result = detailDAO.update(emp_No, bean.getDet_canNote(), bean.getTra_NO());
+			} else {
+				detailDAO.update_FamCanDate(bean.getDet_No(), bean.getDet_canNote());
+				String top1_Tra_No = detailDAO.SELECT_top1_Tra_No(emp_No);
+				detailDAO.UPDATE_emp_SubTra(top1_Tra_No, emp_No);
+				Float TA_money = detailDAO.select_TotalMoney(emp_No, bean.getTra_NO());
+				detailDAO.Update_TA(TA_money, emp_No, bean.getTra_NO());
+			}
+			result = true;
+		}
+		return result;
+	}
+
+	public Boolean update_empData(EmployeeVO bean) {
+		Boolean result = false;
+		if (bean != null) {
+			result = detailDAO.UPDATE_empData(bean);
+		}
+		return result;
+	}
+
+	public Boolean update_famData(FamilyVO bean) {
+		Boolean result = false;
+		if (bean != null) {
+			detailDAO.UPDATE_famData(bean);
+			result = true;
+		}
+		return result;
+	}
+	
+//	public TravelVO Count(String tra_No) {
+//		travelDAO = new TravelDAO();
+//		return travelDAO.Count(tra_No);
+//	}
+
+	public final Pattern TWPID_PATTERN = Pattern.compile("[ABCDEFGHJKLMNPQRSTUVXYWZIO][12]\\d{8}");
+
+	public boolean isValidTWPID(String twpid) {
+		boolean result = false;
+		String pattern = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
+		if (TWPID_PATTERN.matcher(twpid.toUpperCase()).matches()) {
+			int code = pattern.indexOf(twpid.toUpperCase().charAt(0)) + 10;
+			int sum = 0;
+			sum = (int) (code / 10) + 9 * (code % 10) + 8 * (twpid.charAt(1) - '0') + 7 * (twpid.charAt(2) - '0')
+					+ 6 * (twpid.charAt(3) - '0') + 5 * (twpid.charAt(4) - '0') + 4 * (twpid.charAt(5) - '0')
+					+ 3 * (twpid.charAt(6) - '0') + 2 * (twpid.charAt(7) - '0') + 1 * (twpid.charAt(8) - '0')
+					+ (twpid.charAt(9) - '0');
+			if ((sum % 10) == 0) {
+				result = true;
+			}
+		}
+		return result;
+	}
 }
