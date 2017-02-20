@@ -24,8 +24,8 @@ public class DetailDAO {
 	private static final String detail_Enter = "from DetailVO where emp_No=? and tra_No=? and det_CanDate is null order by det_Date";
 	private static final String detail_Emp_No = "from DetailVO where tra_No=? and det_CanDate is null order by det_Date";
 	private static final String detail_Count = "select count(f.fam_Name) as count from Detail d join Family f ON f.fam_No=d.fam_No where d.emp_No=? and d.tra_No=? and d.det_CanDate is null";
-	private static final String updateDet_CanDate="update DetailVO set det_CanDate=? where emp_No=? and tra_No=?";
-	
+	private static final String updateDet_CanDate = "update DetailVO set det_CanDate=? where emp_No=? and tra_No=?";
+
 	public List<String> selectFam_Rel(Integer emp_No, String tra_No) {
 		List<String> fam_Rels = new ArrayList<>();
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -175,4 +175,108 @@ public class DetailDAO {
 			throw ex;
 		}
 	}
+
+	// 雅婷
+	private static final String UPDATE_DETAIL_FOR_EMP_NO = "update Detail set det_note=? , det_noteMoney=? where emp_No=? and fam_No is null and tra_No=?";
+
+	public boolean update_empNo(String det_note, float det_noteMoney, String tra_No, int emp_No) {
+		int b = 0;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			SQLQuery query = session.createSQLQuery(UPDATE_DETAIL_FOR_EMP_NO);
+			query.setParameter(0, det_note);
+			query.setParameter(1, det_noteMoney);
+			query.setParameter(2, emp_No);
+			query.setParameter(3, tra_No);
+			b = query.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		if (b > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private static final String UPDATE_DETAIL_FOR_FAM_NO = "update Detail set det_note=? , det_noteMoney=? where fam_No=? and tra_No=?";
+
+	public boolean update_famNo(String det_note, float det_noteMoney, String tra_No, int fam_No) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		int b = 0;
+		try {
+			SQLQuery query = session.createSQLQuery(UPDATE_DETAIL_FOR_FAM_NO);
+
+			query.setParameter(0, det_note);
+			query.setParameter(1, det_noteMoney);
+			query.setParameter(2, fam_No);
+			query.setParameter(3, tra_No);
+			b = query.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		if (b > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private static final String SELECT_BY_TRA_NO = "select d.tra_No, t.tra_Name , e.dept_No , e.emp_No , f.fam_No , e.emp_Name , e.emp_sub , f.fam_Name , d.det_money ,e.emp_subTra , d.det_note , d.det_noteMoney from Detail d join Employee e on d.emp_No=e.emp_No left join Family f on d.fam_No = f.fam_No left join Travel t on t.tra_No=d.tra_No where d.tra_No=? and d.det_CanDate is null";
+
+	@SuppressWarnings("unchecked")
+	public List<TotalAmountFormBean> selectBean(String tra_No) {
+		List<Object[][]> result = null;
+		List<TotalAmountFormBean> Beans = new ArrayList<TotalAmountFormBean>();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			SQLQuery query = session.createSQLQuery(SELECT_BY_TRA_NO);
+			query.setParameter(0, tra_No);
+			result = query.list();
+
+			for (Object[] obj : result) {
+				TotalAmountFormBean bean = new TotalAmountFormBean();
+				bean.setTraNo(obj[0].toString());
+				bean.setTraName(obj[1].toString());
+				bean.setDeptNo(obj[2].toString());
+				bean.setEmpNo(Integer.parseInt(obj[3].toString()));
+				if(obj[4] != null) {
+					bean.setFamNo(Integer.parseInt(obj[4].toString()));
+				} else {
+					bean.setFamNo(0);
+				}
+				bean.setEmpName(obj[5].toString());
+				bean.setEmpSub(Boolean.parseBoolean(obj[6].toString()));
+				if (obj[7] != null) {
+					bean.setFamName(obj[7].toString());
+				} else {
+					bean.setFamName("");
+				}
+				bean.setDetMoney(Float.parseFloat(obj[8].toString()));
+				if (obj[9] != null) {
+					bean.setEmpSubTra(obj[9].toString());
+				} else {
+					bean.setEmpSubTra("");
+				}
+				if (obj[10] != null) {
+					bean.setDetNote(obj[10].toString());
+				} else {
+					bean.setDetNote("");
+				}
+				if (obj[11] != null) {
+					bean.setDetNoteMoney(Float.parseFloat(obj[11].toString()));
+				} else {
+					bean.setDetNoteMoney(0);
+				}
+				Beans.add(bean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return Beans;
+	}
+
 }

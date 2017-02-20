@@ -28,4 +28,12 @@ public class TotalAmountService {
 		return totalAmountDAO.select(emp_No,tra_No);
 	}
 
+	//雅婷
+	public boolean update(TotalAmountVO bean){
+		boolean b=false;
+		if(bean != null){
+			b=totalAmountDAO.update(bean.getTaMoney(), bean.getTravel().getTraNo(), bean.getEmployee().getEmpNo());
+		}
+		return b;
+	}
 }

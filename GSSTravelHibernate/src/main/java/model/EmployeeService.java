@@ -20,8 +20,8 @@ public class EmployeeService {
 		employeeDAO.updateEmp_SubTra(tra_No, emp_No);
 	}
 	
-	public EmployeeVO select(String emp_NO){
-		return employeeDAO.select(Integer.parseInt(emp_NO));
+	public EmployeeVO select(String emp_No){
+		return employeeDAO.select(Integer.parseInt(emp_No));
 	}
 	
 	public EmployeeVO login(int account, String pwd) {

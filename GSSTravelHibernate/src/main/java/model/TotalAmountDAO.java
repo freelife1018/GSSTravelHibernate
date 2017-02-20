@@ -110,4 +110,23 @@ public class TotalAmountDAO{
 		}
 		return totalAmountVo;
 	}
+	
+	//雅婷
+	private static final String UPDATE_TOTALAMOUNT_FOR_EMP_NO = "update TotalAmount set TA_money=? where emp_No=? and tra_No=?";
+
+	public boolean update(double TA_money, String tra_No, int emp_No) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			SQLQuery query = session.createSQLQuery(UPDATE_TOTALAMOUNT_FOR_EMP_NO);
+
+			query.setParameter(0, TA_money);
+			query.setParameter(1, emp_No);
+			query.setParameter(2, tra_No);
+			query.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

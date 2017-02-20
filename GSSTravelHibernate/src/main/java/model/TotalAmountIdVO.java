@@ -4,7 +4,7 @@ public class TotalAmountIdVO implements java.io.Serializable {
 
 	private String traNo;
 	private int empNo;
-
+	
 	public TotalAmountIdVO() {
 	}
 
@@ -12,7 +12,10 @@ public class TotalAmountIdVO implements java.io.Serializable {
 		this.traNo = traNo;
 		this.empNo = empNo;
 	}
-
+	
+	public void setEmpNo(int empNo) {
+		this.empNo = empNo;
+	}
 	public String getTraNo() {
 		return this.traNo;
 	}
@@ -23,10 +26,6 @@ public class TotalAmountIdVO implements java.io.Serializable {
 
 	public int getEmpNo() {
 		return this.empNo;
-	}
-
-	public void setEmpNo(int empNo) {
-		this.empNo = empNo;
 	}
 
 	public boolean equals(Object other) {
@@ -49,5 +48,6 @@ public class TotalAmountIdVO implements java.io.Serializable {
 		result = 37 * result + this.getEmpNo();
 		return result;
 	}
+	
 
 }

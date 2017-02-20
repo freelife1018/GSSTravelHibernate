@@ -18,7 +18,11 @@ public class DetailService {
 	public FamilyDAO familyDAO;
 	public TravelDAO travelDAO;
 	public TotalAmountDAO totalAmountDAO;
-
+	
+	//雅婷
+	public EmployeeService employeeService =new EmployeeService() ;
+	
+	
 	public List<String> selectFam_Rel(int emp_No, String tra_No) {
 		detailDAO=new DetailDAO();
 		return detailDAO.selectFam_Rel(emp_No, tra_No);
@@ -192,10 +196,66 @@ public class DetailService {
 			return true;
 		}
 	}
-
+	
+	// 雅婷
 	public void updateDet_CanDate(String emp_No, String tra_No) {
 		detailDAO = new DetailDAO();
 		detailDAO.updateDet_CanDate(emp_No, tra_No);
 	}
+	public boolean update_empNo(String det_note, float det_noteMoney, String tra_No, int emp_No) {
+		detailDAO = new DetailDAO();
+		boolean b = true;
+		b = detailDAO.update_empNo(det_note, det_noteMoney, tra_No, emp_No);
+		return b;
+	}
 
+	public boolean update_famNo(String det_note, float det_noteMoney, String tra_No, int fam_No) {
+		detailDAO = new DetailDAO();
+		boolean b = true;
+		b = detailDAO.update_famNo(det_note, det_noteMoney, tra_No, fam_No);
+		return b;
+	}  
+	
+	public List<TotalAmountFormBean> select(String tra_No) {
+		detailDAO = new DetailDAO();
+		List<TotalAmountFormBean> list = detailDAO.selectBean(tra_No);
+		if (list != null) {
+			for (TotalAmountFormBean bean : list) {
+				if (bean.getFamNo() == 0) {
+					if (bean.getEmpSubTra().equals(bean.getTraNo()) && !bean.getEmpSub()) {
+						Integer emp_No = bean.getEmpNo();
+						System.out.println(emp_No);
+						String emp_NO=emp_No.toString();
+						EmployeeVO employeeVO = employeeService.select(emp_NO);
+						java.sql.Date hireDate = employeeVO.getEmpHireDate();
+						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());// 現在系統時間
+						java.sql.Date today = java.sql.Date.valueOf(date);
+						if (hireDate.getTime() / (24 * 60 * 60 * 1000) + 365 < today.getTime()
+								/ (24 * 60 * 60 * 1000)) {
+							double money = 4500;
+							bean.setYearMoney(money);
+						} else {
+							long x = today.getTime() / (24 * 60 * 60 * 1000)
+									- hireDate.getTime() / (24 * 60 * 60 * 1000);// 相差天數
+							long hireMonths = x / 31;
+							double money = 4500 / 12 * hireMonths;
+							bean.setYearMoney(money);
+							System.out.println("bean.getYearMoney="+bean.getYearMoney());
+						}
+					} else {
+						bean.setYearMoney(0);
+					}	
+					System.out.println("bean.getYearMoney="+bean.getYearMoney());
+				}
+				familyDAO = new FamilyDAO();
+				String fam_Rel = familyDAO.selectfam_Rel(Integer.toString(bean.getEmpNo()), bean.getFamName());
+				if ("親友".equals(fam_Rel)) {
+					bean.setFamSub(false);
+				} else {
+					bean.setFamSub(true);
+				}
+			}
+		}
+		return list;
+	}
 }
