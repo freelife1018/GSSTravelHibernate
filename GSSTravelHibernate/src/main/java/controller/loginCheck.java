@@ -22,7 +22,7 @@ import model.HibernateUtil;
 public class loginCheck implements Filter {
 	private FilterConfig fConfig = null;
 	private SessionFactory factory = null;
-
+	
 	public loginCheck() {
 
 	}
@@ -63,7 +63,6 @@ public class loginCheck implements Filter {
 				tx.rollback();
 				e.printStackTrace();
 			}
-
 		}
 	}
 

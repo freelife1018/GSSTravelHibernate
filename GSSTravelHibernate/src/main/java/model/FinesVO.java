@@ -3,12 +3,12 @@ package model;
 public class FinesVO implements java.io.Serializable {
 
 	private int fineDates;
-	private double finePer;
+	private float finePer;
 
 	public FinesVO() {
 	}
 
-	public FinesVO(int fineDates, double finePer) {
+	public FinesVO(int fineDates, float finePer) {
 		this.fineDates = fineDates;
 		this.finePer = finePer;
 	}
@@ -21,11 +21,11 @@ public class FinesVO implements java.io.Serializable {
 		this.fineDates = fineDates;
 	}
 
-	public double getFinePer() {
+	public float getFinePer() {
 		return this.finePer;
 	}
 
-	public void setFinePer(double finePer) {
+	public void setFinePer(float finePer) {
 		this.finePer = finePer;
 	}
 

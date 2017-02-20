@@ -1,5 +1,9 @@
 package model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +16,8 @@ public class ItemDAO{
 	private static final String select = "from ItemVO where tra_No=?";
 	private static final String getFareMoney="from ItemVO  where tra_No = ? and item_name not like '%住宿%'";
 	private static final String getRoomMoney="from ItemVO where tra_No=? and item_name like '%住宿%'";
-	private static final String SELECT_ONE_STMT = "select item_Money FROM Item WHERE item_No=? ORDER BY tra_No";
+	private static final String SELECT_ALL_STMT = "FROM ItemVO WHERE item_No=1 ORDER BY tra_No";//柯
+	private static final String SELECT_ONE_STMT = "FROM ItemVO WHERE item_No=1 AND tra_No=?";//柯
 	
 	public ItemDAO() {
 		super();
@@ -56,22 +61,31 @@ public class ItemDAO{
 		}
 		return result;
 	}
-
+	
+	//柯
 	public List<ItemVO> select() {
-		List<ItemVO> result = new ArrayList<>();
+		List<ItemVO> result = null;
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			SQLQuery query = session.createSQLQuery(SELECT_ONE_STMT);
-			query.setParameter(0, 1);
-			List<Double> list= query.list();
-			for(Double a:list){
-				ItemVO itemVO=new ItemVO();
-				itemVO.setItemMoney(a);
-				result.add(itemVO);
-			}
+			Query query = session.createQuery("FROM ItemVO WHERE item_No=1 ORDER BY tra_No");
+			result = query.list();
 		} catch (Exception e) {
 			throw e;
 		}
 		return result;
 	}
+
+	public List<ItemVO> selectOne(String no) {
+		List<ItemVO> result = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			Query query = session.createQuery("FROM ItemVO WHERE item_No=1 AND tra_No=:no");
+			query.setParameter("no", no);
+			result = query.list();
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+	
 }
